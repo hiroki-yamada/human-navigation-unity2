@@ -5,18 +5,19 @@ using SIGVerse.RosBridge.sensor_msgs;
 using SIGVerse.Common;
 using System.Collections.Generic;
 using System;
+using SIGVerse.RosBridge.human_navigation_msgs.msg;
 
 
 namespace SIGVerse.Competition.HumanNavigation
 {
 	public interface IRosAvatarStatusSendHandler : IEventSystemHandler
 	{
-		void OnSendRosAvatarStatusMessage(RosBridge.human_navigation.HumanNaviAvatarStatus message);
+		void OnSendRosAvatarStatusMessage(HumanNaviAvatarStatus message);
 	}
 
-	public class HumanNaviPubAvatarStatus : RosPubMessage<RosBridge.human_navigation.HumanNaviAvatarStatus>, IRosAvatarStatusSendHandler
+	public class HumanNaviPubAvatarStatus : RosPubMessage<HumanNaviAvatarStatus>, IRosAvatarStatusSendHandler
 	{
-		public void OnSendRosAvatarStatusMessage(RosBridge.human_navigation.HumanNaviAvatarStatus message)
+		public void OnSendRosAvatarStatusMessage(HumanNaviAvatarStatus message)
 		{
 			SIGVerseLogger.Info("Send pose of avatar: ");
 			//SIGVerseLogger.Info("Head       : " + message.head.position + message.head.orientation);
@@ -28,7 +29,7 @@ namespace SIGVerse.Competition.HumanNavigation
 			//SIGVerseLogger.Info("Is Target in Left Hand : " + message.is_target_object_in_left_hand);
 			//SIGVerseLogger.Info("Is Target in Right Hand : " + message.is_target_object_in_right_hand);
 
-			RosBridge.human_navigation.HumanNaviAvatarStatus rosMessage = new RosBridge.human_navigation.HumanNaviAvatarStatus
+			HumanNaviAvatarStatus rosMessage = new HumanNaviAvatarStatus
 			(
 				message.head,
 				message.body,

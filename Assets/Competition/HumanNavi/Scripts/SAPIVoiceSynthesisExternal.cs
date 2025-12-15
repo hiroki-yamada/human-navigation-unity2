@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using SIGVerse.Common;
 using Google.Cloud.Translation.V2;
+using SIGVerse.RosBridge.human_navigation_msgs.msg;
 
 #pragma warning disable 1701
 
@@ -215,7 +216,7 @@ namespace SIGVerse.Competition.HumanNavigation
 			return this.isSpeaking;
 		}
 
-		public void OnReceiveROSHumanNaviGuidanceMessage(SIGVerse.RosBridge.human_navigation.HumanNaviGuidanceMsg guidanceMsg)
+		public void OnReceiveROSHumanNaviGuidanceMessage(HumanNaviGuidanceMsg guidanceMsg)
 		{
 			this.SpeakMessage(guidanceMsg.message, guidanceMsg.display_type, guidanceMsg.source_language, guidanceMsg.target_language);
 		}

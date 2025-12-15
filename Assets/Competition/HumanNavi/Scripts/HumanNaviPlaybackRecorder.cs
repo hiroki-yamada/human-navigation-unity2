@@ -3,6 +3,7 @@ using UnityEngine;
 using SIGVerse.ToyotaHSR;
 using UnityEngine.EventSystems;
 using System.Text.RegularExpressions;
+using SIGVerse.RosBridge.human_navigation_msgs.msg;
 
 namespace SIGVerse.Competition.HumanNavigation
 {
@@ -21,8 +22,8 @@ namespace SIGVerse.Competition.HumanNavigation
 
 	public interface IPlaybackRosMessageHandler : IEventSystemHandler
 	{
-		void OnSendRosMessage(SIGVerse.RosBridge.human_navigation.HumanNaviMsg message);
-		void OnReceiveRosMessage(SIGVerse.RosBridge.human_navigation.HumanNaviMsg message);
+		void OnSendRosMessage(HumanNaviMsg message);
+		void OnReceiveRosMessage(HumanNaviMsg message);
 	}
 
 	public interface IRecordEventHandler : IEventSystemHandler
@@ -83,7 +84,7 @@ namespace SIGVerse.Competition.HumanNavigation
 			base.AddDataLine(PlaybackGuidanceMessageEventController.GetDataLine(this.GetHeaderElapsedTime(), guidanceMessageStatus));
 		}
 
-		public void OnSendRosMessage(SIGVerse.RosBridge.human_navigation.HumanNaviMsg message)
+		public void OnSendRosMessage(HumanNaviMsg message)
 		{
 			if (HumanNaviConfig.Instance.configInfo.playbackType != WorldPlaybackCommon.PlaybackTypeRecord) // for demo mode
 			{
@@ -96,22 +97,22 @@ namespace SIGVerse.Competition.HumanNavigation
 
 			base.AddDataLine(GetDataLine(this.GetHeaderElapsedTime(), message, HumanNaviPlaybackCommon.DataTypeHumanNaviROSMessageSent));
 		}
-		public void OnSendRosAvatarStatusMessage(SIGVerse.RosBridge.human_navigation.HumanNaviAvatarStatus avatarStatus)
+		public void OnSendRosAvatarStatusMessage(HumanNaviAvatarStatus avatarStatus)
 		{
 			base.AddDataLine(GetDataLine(this.GetHeaderElapsedTime(), avatarStatus, HumanNaviPlaybackCommon.DataTypeHumanNaviROSMessageSent));
 		}
-		public void OnSendRosTaskInfoMessage(SIGVerse.RosBridge.human_navigation.HumanNaviTaskInfo taskInfo)
+		public void OnSendRosTaskInfoMessage(HumanNaviTaskInfo taskInfo)
 		{
 			base.AddDataLine(GetDataLine(this.GetHeaderElapsedTime(), taskInfo, HumanNaviPlaybackCommon.DataTypeHumanNaviROSMessageSent));
 		}
 
-		public void OnReceiveRosMessage(SIGVerse.RosBridge.human_navigation.HumanNaviMsg humanNaviMsg)
+		public void OnReceiveRosMessage(HumanNaviMsg humanNaviMsg)
 		{
 			base.AddDataLine(GetDataLine(this.GetHeaderElapsedTime(), humanNaviMsg, HumanNaviPlaybackCommon.DataTypeHumanNaviROSMessageReceived));
 		}
 
 
-		private string GetDataLine(string elapsedTime, SIGVerse.RosBridge.human_navigation.HumanNaviMsg message, string dataType)
+		private string GetDataLine(string elapsedTime, HumanNaviMsg message, string dataType)
 		{
 			string dataLine = elapsedTime + "," + dataType;
 			dataLine += "\t" + "HumanNaviMsg";
@@ -121,7 +122,7 @@ namespace SIGVerse.Competition.HumanNavigation
 			return dataLine;
 		}
 
-		private string GetDataLine(string elapsedTime, SIGVerse.RosBridge.human_navigation.HumanNaviAvatarStatus avatarStatus, string dataType)
+		private string GetDataLine(string elapsedTime, HumanNaviAvatarStatus avatarStatus, string dataType)
 		{
 			string dataLine = elapsedTime + "," + dataType;
 			dataLine += "\t" + "HumanNaviAvatarPose";
@@ -137,7 +138,7 @@ namespace SIGVerse.Competition.HumanNavigation
 			return dataLine;
 		}
 
-		private string GetDataLine(string elapsedTime, SIGVerse.RosBridge.human_navigation.HumanNaviTaskInfo taskInfo, string dataType)
+		private string GetDataLine(string elapsedTime, HumanNaviTaskInfo taskInfo, string dataType)
 		{
 			string dataLine = elapsedTime + "," + dataType;
 			dataLine += "\t" + "HumanNaviTaskInfo";

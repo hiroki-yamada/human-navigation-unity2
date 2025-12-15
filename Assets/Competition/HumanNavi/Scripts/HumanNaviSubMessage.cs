@@ -5,19 +5,20 @@ using SIGVerse.RosBridge.sensor_msgs;
 using SIGVerse.Common;
 using System.Collections.Generic;
 using System;
+using SIGVerse.RosBridge.human_navigation_msgs.msg;
 
 namespace SIGVerse.Competition.HumanNavigation
 {
 	public interface IReceiveHumanNaviMsgHandler : IEventSystemHandler
 	{
-		void OnReceiveRosMessage(RosBridge.human_navigation.HumanNaviMsg humanNaviMsg);
+		void OnReceiveRosMessage(HumanNaviMsg humanNaviMsg);
 	}
 
-	public class HumanNaviSubMessage : RosSubMessage<RosBridge.human_navigation.HumanNaviMsg>
+	public class HumanNaviSubMessage : RosSubMessage<HumanNaviMsg>
 	{
 		public List<GameObject> destinations;
 
-		protected override void SubscribeMessageCallback(RosBridge.human_navigation.HumanNaviMsg humanNaviMsg)
+		protected override void SubscribeMessageCallback(HumanNaviMsg humanNaviMsg)
 		{
 			SIGVerseLogger.Info("Received message :" + humanNaviMsg.message);
 

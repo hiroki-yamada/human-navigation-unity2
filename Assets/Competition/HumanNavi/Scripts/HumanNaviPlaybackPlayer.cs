@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using Valve.VR;
-using Valve.VR.InteractionSystem;
 using UnityEngine.XR.Management;
 using UnityEngine.SpatialTracking;
 

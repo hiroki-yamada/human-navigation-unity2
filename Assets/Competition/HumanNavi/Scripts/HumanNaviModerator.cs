@@ -9,9 +9,8 @@ using SIGVerse.Common;
 using SIGVerse.RosBridge;
 using System.Threading;
 using UnityEngine.SceneManagement;
+using SIGVerse.RosBridge.human_navigation_msgs.msg;
 
-using Valve.VR;
-using Valve.VR.InteractionSystem;
 
 namespace SIGVerse.Competition.HumanNavigation
 {
@@ -120,7 +119,7 @@ namespace SIGVerse.Competition.HumanNavigation
 		private GameObject mainMenu;
 		private PanelMainController panelMainController;
 
-		private SIGVerse.RosBridge.human_navigation.HumanNaviTaskInfo taskInfoForRobot;
+		private HumanNaviTaskInfo taskInfoForRobot;
 		private HumanNavigation.TaskInfo currentTaskInfo;
 
 		private Step step;
@@ -477,7 +476,7 @@ namespace SIGVerse.Competition.HumanNavigation
 			//this.currentTaskInfo = this.sessionManager.GetCurrentTaskInfo();
 			this.currentTaskInfo = this.sessionManager.GetTaskInfo(this.numberOfSession);
 
-			this.taskInfoForRobot = new SIGVerse.RosBridge.human_navigation.HumanNaviTaskInfo();
+			this.taskInfoForRobot = new SIGVerse.RosBridge.human_navigation_msgs.msg.HumanNaviTaskInfo();
 			string environmentName = this.sessionManager.GetEnvironment().name;
 			this.taskInfoForRobot.environment_id = environmentName.Substring(0, environmentName.Length - 3);
 			this.SetObjectListToHumanNaviTaskInfo();
@@ -581,7 +580,7 @@ namespace SIGVerse.Competition.HumanNavigation
 				}
 				else
 				{
-					SIGVerse.RosBridge.human_navigation.HumanNaviObjectInfo objInfo = new SIGVerse.RosBridge.human_navigation.HumanNaviObjectInfo
+					SIGVerse.RosBridge.human_navigation_msgs.msg.HumanNaviObjectInfo objInfo = new SIGVerse.RosBridge.human_navigation_msgs.msg.HumanNaviObjectInfo
 					{
 						name = graspableObject.name.Substring(0, graspableObject.name.Length - 3),
 						position = positionInROS,
@@ -616,7 +615,7 @@ namespace SIGVerse.Competition.HumanNavigation
 				Vector3    positionInROS    = this.ConvertCoordinateSystemUnityToROS_Position(furnitureObject.transform.position);
 				Quaternion orientationInROS = this.ConvertCoordinateSystemUnityToROS_Rotation(furnitureObject.transform.rotation);
 
-				SIGVerse.RosBridge.human_navigation.HumanNaviObjectInfo objInfo = new SIGVerse.RosBridge.human_navigation.HumanNaviObjectInfo
+				HumanNaviObjectInfo objInfo = new HumanNaviObjectInfo
 				{
 					name = furnitureObject.name.Substring(0, furnitureObject.name.Length - 3),
 					position = positionInROS,
@@ -681,7 +680,7 @@ namespace SIGVerse.Competition.HumanNavigation
 			this.PostProcess();
 		}
 
-		public void OnReceiveRosMessage(RosBridge.human_navigation.HumanNaviMsg humanNaviMsg)
+		public void OnReceiveRosMessage(HumanNaviMsg humanNaviMsg)
 		{
 			if (!this.isDuringSession)
 			{
@@ -820,13 +819,13 @@ namespace SIGVerse.Competition.HumanNavigation
 			(
 				target: this.playbackManager,
 				eventData: null,
-				functor: (reciever, eventData) => reciever.OnSendRosMessage(new SIGVerse.RosBridge.human_navigation.HumanNaviMsg(message, detail))
+				functor: (reciever, eventData) => reciever.OnSendRosMessage(new HumanNaviMsg(message, detail))
 			);
 		}
 
 		private void SendRosAvatarStatusMessage()
 		{
-			RosBridge.human_navigation.HumanNaviAvatarStatus avatarStatus = new RosBridge.human_navigation.HumanNaviAvatarStatus();
+			HumanNaviAvatarStatus avatarStatus = new HumanNaviAvatarStatus();
 
 			avatarStatus.head.position          = ConvertCoordinateSystemUnityToROS_Position(this.head.transform.position);
 			avatarStatus.head.orientation       = ConvertCoordinateSystemUnityToROS_Rotation(this.head.transform.rotation);
@@ -858,7 +857,7 @@ namespace SIGVerse.Competition.HumanNavigation
 
 		private void SendRosObjectStatusMessage()
 		{
-			RosBridge.human_navigation.HumanNaviObjectStatus objectStatus = new RosBridge.human_navigation.HumanNaviObjectStatus();
+			HumanNaviObjectStatus objectStatus = new HumanNaviObjectStatus();
 
 			foreach (GameObject graspableObject in this.graspableObjects)
 			{
@@ -873,7 +872,7 @@ namespace SIGVerse.Competition.HumanNavigation
 				}
 				else
 				{
-					SIGVerse.RosBridge.human_navigation.HumanNaviObjectInfo objInfo = new SIGVerse.RosBridge.human_navigation.HumanNaviObjectInfo
+					HumanNaviObjectInfo objInfo = new HumanNaviObjectInfo
 					{
 						name = graspableObject.name.Substring(0, graspableObject.name.Length - 3),
 						position = positionInROS,
@@ -899,7 +898,7 @@ namespace SIGVerse.Competition.HumanNavigation
 			);
 		}
 
-		private void SendRosTaskInfoMessage(RosBridge.human_navigation.HumanNaviTaskInfo taskInfo)
+		private void SendRosTaskInfoMessage(HumanNaviTaskInfo taskInfo)
 		{
 			ExecuteEvents.Execute<IRosTaskInfoSendHandler>
 			(

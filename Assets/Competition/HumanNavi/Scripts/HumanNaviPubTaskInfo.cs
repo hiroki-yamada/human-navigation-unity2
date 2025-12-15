@@ -5,17 +5,18 @@ using SIGVerse.RosBridge.sensor_msgs;
 using SIGVerse.Common;
 using System.Collections.Generic;
 using System;
+using SIGVerse.RosBridge.human_navigation_msgs.msg;
 
 namespace SIGVerse.Competition.HumanNavigation
 {
 	public interface IRosTaskInfoSendHandler : IEventSystemHandler
 	{
-		void OnSendRosTaskInfoMessage(RosBridge.human_navigation.HumanNaviTaskInfo message);
+		void OnSendRosTaskInfoMessage(HumanNaviTaskInfo message);
 	}
 
-	public class HumanNaviPubTaskInfo : RosPubMessage<RosBridge.human_navigation.HumanNaviTaskInfo>, IRosTaskInfoSendHandler
+	public class HumanNaviPubTaskInfo : RosPubMessage<HumanNaviTaskInfo>, IRosTaskInfoSendHandler
 	{
-		public void OnSendRosTaskInfoMessage(RosBridge.human_navigation.HumanNaviTaskInfo message)
+		public void OnSendRosTaskInfoMessage(HumanNaviTaskInfo message)
 		{
 			SIGVerseLogger.Info("Send Task Info message : ");
 			SIGVerseLogger.Info("Environment ID : " + message.environment_id);
@@ -31,7 +32,7 @@ namespace SIGVerse.Competition.HumanNavigation
 			//	SIGVerseLogger.Info("Furniture : " + objInfo.name + " " + objInfo.position + " " + objInfo.orientation);
 			//}
 
-			RosBridge.human_navigation.HumanNaviTaskInfo rosMessage = new RosBridge.human_navigation.HumanNaviTaskInfo
+			HumanNaviTaskInfo rosMessage = new HumanNaviTaskInfo
 			(
 				message.environment_id,
 				message.target_object,
