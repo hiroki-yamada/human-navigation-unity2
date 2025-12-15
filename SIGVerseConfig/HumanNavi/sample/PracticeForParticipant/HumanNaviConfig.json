@@ -1,0 +1,12 @@
+{
+	"teamName":"Hum@n Navigation",
+	"sessionTimeLimit":"180",
+	"recoverUsingScoreFile": false,
+	"maxNumberOfTrials": 999,
+	"playbackType": 0,
+	"executionMode": 2,
+	"taskInfoList":[
+		{"environment":"ExampleLayoutHN01#01","target":"cup_c02#01","destination":"destination#01"}
+	],
+	"guidanceMessageForPractice":"Please take a pink cup on your right, and put it on the round table in front of you."
+}
