@@ -69,7 +69,8 @@ namespace SIGVerse.Competition.HumanNavigation
 				}
 				case JudgeType.In:
 				{
-					if (targetRigidbody.velocity.magnitude < ThresholdVelocity && !this.moderator.IsTargetGrasped())
+//					if (targetRigidbody.velocity.magnitude < ThresholdVelocity && !this.moderator.IsTargetGrasped())
+					if (targetRigidbody.linearVelocity.magnitude < ThresholdVelocity && !this.moderator.IsTargetGrasped())
 					{
 						this.targetPlaced = true;
 						this.moderator.TargetPlacedOnDestination();

@@ -8,10 +8,10 @@ namespace SIGVerse.Competition.HumanNavigation
 {
 	public class HumanNaviSteamVRActionInitializer : MonoBehaviour
 	{
-		void Awake()
-		{
-			SteamVR_Actions.sigverse.Activate(SteamVR_Input_Sources.Any);
-		}
+		//void Awake()
+		//{
+		//	SteamVR_Actions.sigverse.Activate(SteamVR_Input_Sources.Any);
+		//}
 	}
 }
 

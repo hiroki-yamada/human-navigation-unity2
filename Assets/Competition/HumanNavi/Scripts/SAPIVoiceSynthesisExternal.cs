@@ -257,10 +257,14 @@ namespace SIGVerse.Competition.HumanNavigation
 		public void ResetNotificationDestinations()
 		{
 			this.notificationDestinations = new List<GameObject>();
-			this.notificationDestinations.Add(GameObject.FindObjectOfType<HumanNaviModerator>().gameObject);
-			this.notificationDestinations.Add(GameObject.FindObjectOfType<HumanNaviScoreManager>().gameObject);
-			this.notificationDestinations.Add(GameObject.FindObjectOfType<GuidanceMessagePanelController>().gameObject);
-			this.notificationDestinations.Add(GameObject.FindObjectOfType<HumanNaviPlaybackCommon>().gameObject);
+			//this.notificationDestinations.Add(GameObject.FindObjectOfType<HumanNaviModerator>().gameObject);
+			//this.notificationDestinations.Add(GameObject.FindObjectOfType<HumanNaviScoreManager>().gameObject);
+			//this.notificationDestinations.Add(GameObject.FindObjectOfType<GuidanceMessagePanelController>().gameObject);
+			//this.notificationDestinations.Add(GameObject.FindObjectOfType<HumanNaviPlaybackCommon>().gameObject);
+			this.notificationDestinations.Add(GameObject.FindAnyObjectByType<HumanNaviModerator>().gameObject);
+			this.notificationDestinations.Add(GameObject.FindAnyObjectByType<HumanNaviScoreManager>().gameObject);
+			this.notificationDestinations.Add(GameObject.FindAnyObjectByType<GuidanceMessagePanelController>().gameObject);
+			this.notificationDestinations.Add(GameObject.FindAnyObjectByType<HumanNaviPlaybackCommon>().gameObject);
 		}
 	}
 }

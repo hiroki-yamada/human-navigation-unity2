@@ -52,8 +52,9 @@ namespace SIGVerse.Competition.HumanNavigation
 
 				// Avatar
 				Transform avatar = GameObject.FindGameObjectWithTag("Avatar").transform;
-				avatar.GetComponentInChildren<Valve.VR.InteractionSystem.Player>().enabled = false;
-
+				// Commented 1216 Start
+				//avatar.GetComponentInChildren<Valve.VR.InteractionSystem.Player>().enabled = false;
+				// Commented 1216 Ent
 #if ENABLE_VRIK
 				// Avatar (Final IK)
 				if (avatar.GetComponentInChildren<RootMotion.FinalIK.VRIK>())
@@ -70,9 +71,11 @@ namespace SIGVerse.Competition.HumanNavigation
 
 //				if (!this.hasVRIK)
 				{
-					foreach (SteamVR_Behaviour_Pose pose in avatar.GetComponentsInChildren<SteamVR_Behaviour_Pose>()) { pose.enabled = false; }
-					foreach (Hand hand in avatar.GetComponentsInChildren<Hand>()) { hand.enabled = false; }
-					avatar.GetComponentInChildren<SteamVR_CameraHelper>().enabled = false;
+					// Commented 1216 Start
+					//foreach (SteamVR_Behaviour_Pose pose in avatar.GetComponentsInChildren<SteamVR_Behaviour_Pose>()) { pose.enabled = false; }
+					//foreach (Hand hand in avatar.GetComponentsInChildren<Hand>()) { hand.enabled = false; }
+					//avatar.GetComponentInChildren<SteamVR_CameraHelper>().enabled = false;
+					// Commented 1216 End
 					avatar.GetComponentInChildren<TrackedPoseDriver>().enabled = false;
 
 					XRLoader activeLoader = XRGeneralSettings.Instance.Manager.activeLoader;

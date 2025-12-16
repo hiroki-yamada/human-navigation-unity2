@@ -5,6 +5,7 @@ using System.Linq;
 using SIGVerse.Common;
 using System;
 using System.Threading;
+using SIGVerse.RosBridge.human_navigation_msgs.msg;
 
 namespace SIGVerse.Competition.HumanNavigation
 {
@@ -189,7 +190,7 @@ namespace SIGVerse.Competition.HumanNavigation
 
 		public void SpeakGuidanceMessageForPractice(string msg, string displeyType = "All")
 		{
-			RosBridge.human_navigation.HumanNaviGuidanceMsg guidanceMsg = new RosBridge.human_navigation.HumanNaviGuidanceMsg();
+			HumanNaviGuidanceMsg guidanceMsg = new HumanNaviGuidanceMsg();
 			guidanceMsg.message = msg;
 			guidanceMsg.display_type = displeyType;
 			this.tts.OnReceiveROSHumanNaviGuidanceMessage(guidanceMsg);

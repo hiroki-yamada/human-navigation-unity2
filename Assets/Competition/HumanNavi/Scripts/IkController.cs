@@ -2,6 +2,8 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Build;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -52,7 +54,8 @@ namespace SIGVerse.Competition.HumanNavigation
 
 			private void InitializeIkStatus()
 			{
-				string[] scriptingDefineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone).Split(SymbolSeparator);
+//				string[] scriptingDefineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone).Split(SymbolSeparator);
+				string[] scriptingDefineSymbols = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone).Split(SymbolSeparator);
 
 				// Initialize avatar status
 				IkController ikController = (IkController)target;
@@ -110,7 +113,8 @@ namespace SIGVerse.Competition.HumanNavigation
 
 			private static void UpdateScriptingDefineSymbolList(string defineStr, bool isDefined)
 			{
-				string[] scriptingDefineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone).Split(SymbolSeparator);
+//				string[] scriptingDefineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone).Split(SymbolSeparator);
+				string[] scriptingDefineSymbols = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone).Split(SymbolSeparator);
 
 				List<string> scriptingDefineSymbolList = new List<string>(scriptingDefineSymbols);
 
@@ -127,7 +131,8 @@ namespace SIGVerse.Competition.HumanNavigation
 				string defineSymbolsStr = String.Join(SymbolSeparator.ToString(), scriptingDefineSymbolList.ToArray());
 
 				// Update ScriptingDefineSymbols of PlayerSettings
-				PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defineSymbolsStr);
+//				PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defineSymbolsStr);
+				PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, defineSymbolsStr);
 			}
 		}
 #endif
