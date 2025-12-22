@@ -23,6 +23,17 @@ TagManager:
   - PlaybackTarget
   - MainMenu
   - AudienceCamera
+  - Furniture
+  - Door
+  - Drawer
+  - Environment
+  - Destination
+  - GuidanceMessagePanelForAudience
+  - GuidanceMessageText
+  - GuidanceMessagePanelForAvatar
+  - Avatar
+  - Graspables
+  - Handle
   layers:
   - Default
   - TransparentFX
@@ -35,12 +46,12 @@ TagManager:
   - Environment
   - Robot
   - Effect
-  - Graspable
-  - Human
-  - 
-  - 
-  - 
-  - 
+  - AvatarUI
+  - Collider.AvatarOnly
+  - Avatar
+  - Graspables
+  - Furniture
+  - FurnitureGrabVolume
   - 
   - 
   - 
