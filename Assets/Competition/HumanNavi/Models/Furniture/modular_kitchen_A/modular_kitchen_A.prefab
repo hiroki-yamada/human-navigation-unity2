@@ -5068,7 +5068,7 @@ GameObject:
   - component: {fileID: 4278136511621284}
   m_Layer: 15
   m_Name: modular_kitchen_A
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
