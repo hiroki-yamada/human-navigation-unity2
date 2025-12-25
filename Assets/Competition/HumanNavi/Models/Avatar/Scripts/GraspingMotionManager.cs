@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using Valve.VR;
 
 namespace SIGVerse.Competition.HumanNavigation
 {

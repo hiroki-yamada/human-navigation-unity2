@@ -15,7 +15,7 @@ public class AvatarControllerWithBackward : MonoBehaviour
 	float m_StationaryTurnSpeed = 180;//how much turn to add when turn from standing
 	//[SerializeField]
 	//float m_JumpPower = 12f;//how much heightto add to jump
-	[Range(1f, 4f)]
+	//[Range(1f, 4f)]
 	//[SerializeField]
 	//float m_GravityMultiplier = 2f;//how much gravity to add when jumping
 	[SerializeField]
