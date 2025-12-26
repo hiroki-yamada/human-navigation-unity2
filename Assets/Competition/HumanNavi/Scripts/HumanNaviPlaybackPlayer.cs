@@ -4,6 +4,11 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.XR.Management;
 using UnityEngine.SpatialTracking;
+using Unity.XR.CoreUtils;
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
+using UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using UnityEngine.XR.Interaction.Toolkit.Feedback;
 
 namespace SIGVerse.Competition.HumanNavigation
 {
@@ -52,9 +57,7 @@ namespace SIGVerse.Competition.HumanNavigation
 
 				// Avatar
 				Transform avatar = GameObject.FindGameObjectWithTag("Avatar").transform;
-				// Commented 1216 Start
-				//avatar.GetComponentInChildren<Valve.VR.InteractionSystem.Player>().enabled = false;
-				// Commented 1216 Ent
+				
 #if ENABLE_VRIK
 				// Avatar (Final IK)
 				if (avatar.GetComponentInChildren<RootMotion.FinalIK.VRIK>())
@@ -71,12 +74,13 @@ namespace SIGVerse.Competition.HumanNavigation
 
 //				if (!this.hasVRIK)
 				{
-					// Commented 1216 Start
-					//foreach (SteamVR_Behaviour_Pose pose in avatar.GetComponentsInChildren<SteamVR_Behaviour_Pose>()) { pose.enabled = false; }
-					//foreach (Hand hand in avatar.GetComponentsInChildren<Hand>()) { hand.enabled = false; }
-					//avatar.GetComponentInChildren<SteamVR_CameraHelper>().enabled = false;
-					// Commented 1216 End
-					avatar.GetComponentInChildren<TrackedPoseDriver>().enabled = false;
+					avatar.GetComponentInChildren<XROrigin>().enabled = false;
+					avatar.GetComponentInChildren<InputActionManager>().enabled = false;
+				
+					foreach (TrackedPoseDriver   tpd in avatar.GetComponentsInChildren<TrackedPoseDriver>())   { tpd.enabled = false; }
+					foreach (HapticImpulsePlayer hip in avatar.GetComponentsInChildren<HapticImpulsePlayer>()) { hip.enabled = false; }
+					foreach (XRDirectInteractor xrdi in avatar.GetComponentsInChildren<XRDirectInteractor>()) { xrdi.enabled = false; }
+					foreach (SimpleHapticFeedback shf in avatar.GetComponentsInChildren<SimpleHapticFeedback>()) { shf.enabled = false; }
 
 					XRLoader activeLoader = XRGeneralSettings.Instance.Manager.activeLoader;
 					if (activeLoader != null)
@@ -84,10 +88,6 @@ namespace SIGVerse.Competition.HumanNavigation
 						activeLoader.Stop();
 						XRGeneralSettings.Instance.Manager.DeinitializeLoader();
 					}
-
-					avatar.GetComponentInChildren<Animator>().enabled = false;
-					avatar.GetComponentInChildren<SIGVerse.Human.VR.SimpleHumanVRController>().enabled = false;
-					avatar.GetComponentInChildren<SIGVerse.Human.IK.SimpleIK>().enabled = false;
 
 					avatar.GetComponentInChildren<Animator>().enabled = false;
 					avatar.GetComponentInChildren<SIGVerse.Human.VR.SimpleHumanVRController>().enabled = false;
