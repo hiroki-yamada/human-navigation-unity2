@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ namespace SIGVerse.Competition.HumanNavigation
 
 		public GuidanceMessagePanelType panelType;
 
-		public Text guidanceMessageText;
+		public TMP_Text guidanceMessageText;
 	}
 }
 

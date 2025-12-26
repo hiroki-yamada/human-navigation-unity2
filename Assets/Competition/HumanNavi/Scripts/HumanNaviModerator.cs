@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -84,7 +85,7 @@ namespace SIGVerse.Competition.HumanNavigation
 		public XRDirectInteractor leftHandForSimpleIK;
 		public XRDirectInteractor rightHandForSimpleIK;
 		public GameObject noticePanelForSimpleIKAvatar;
-		public UnityEngine.UI.Text noticeTextForSimpleIKAvatar;
+		public TMP_Text noticeTextForSimpleIKAvatar;
 
 		[HeaderAttribute("Avatar for FinalIK")]
 		public GameObject avatarForFinalIK;
@@ -121,7 +122,7 @@ namespace SIGVerse.Competition.HumanNavigation
 		private XRDirectInteractor leftHand;
 		private XRDirectInteractor rightHand;
 		private GameObject noticePanelForAvatar;
-		private UnityEngine.UI.Text noticeTextForAvatar;
+		private TMP_Text noticeTextForAvatar;
 
 		private Vector3 initialAvatarPosition;
 		private Vector3 initialAvatarRotation;
