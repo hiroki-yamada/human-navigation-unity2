@@ -27,6 +27,16 @@ namespace SIGVerse.Competition.HumanNavigation
 
 	public class HumanNaviModerator : MonoBehaviour, ITimeIsUpHandler, IStartTrialHandler, IGoToNextTrialHandler, IReceiveHumanNaviMsgHandler, ISendSpeechResultHandler, IReachMaxWrongObjectGraspCountHandler
 	{
+		private const string LeftPrimaryButtonPath   = "LeftController/LeftPrimaryButton";
+		private const string LeftSecondaryButtonPath = "LeftController/LeftSecondaryButton";
+		private const string LeftThumbstickClickPath = "LeftController/LeftThumbstickClick";
+		private const string LeftGripPressedPath     = "LeftController/LeftGripPressed";
+
+		private const string RightPrimaryButtonPath   = "RightController/RightPrimaryButton";
+		private const string RightSecondaryButtonPath = "RightController/RightSecondaryButton";
+		private const string RightThumbstickClickPath = "RightController/RightThumbstickClick";
+		private const string RightGripPressedPath     = "RightController/RightGripPressed";
+
 		private const int SendingAreYouReadyInterval = 1000;
 
 		private const string MsgAreYouReady     = "Are_you_ready?";
@@ -78,23 +88,27 @@ namespace SIGVerse.Competition.HumanNavigation
 
 		[HeaderAttribute("Avatar for SimpleIK")]
 		public GameObject avatarForSimpleIK;
-		public GameObject headForSimpleIK;
-		public GameObject bodyForSimpleIK;
-		//public Hand LeftHandForSimpleIK;
-		//public Hand rightHandForSimpleIK;
-		public XRDirectInteractor leftHandForSimpleIK;
-		public XRDirectInteractor rightHandForSimpleIK;
-		public GameObject noticePanelForSimpleIKAvatar;
-		public TMP_Text noticeTextForSimpleIKAvatar;
+//		public GameObject headForSimpleIK;
+		public string     headForSimpleIKPath = "SimpleXROrigin/Camera Offset/Main Camera";
+//		public GameObject bodyForSimpleIK;
+		public string     bodyForSimpleIKPath = "Ethan/EthanSkeleton/EthanHips/EthanSpine/EthanSpine1/EthanSpine2/body";
+//		public XRDirectInteractor leftHandForSimpleIK;
+		public string     leftHandForSimpleIKPath  = "SimpleXROrigin/Camera Offset/Left Controller/Direct Interactor";
+//		public XRDirectInteractor rightHandForSimpleIK;
+		public string     rightHandForSimpleIKPath = "SimpleXROrigin/Camera Offset/Right Controller/Direct Interactor";
+//		public GameObject noticePanelForSimpleIKAvatar;
+		public string     noticePanelForSimpleIKPath = "SimpleXROrigin/Camera Offset/Main Camera/Canvas/NoticePnaelForAvatar";
+//		public TMP_Text noticeTextForSimpleIKAvatar;
+		public string     noticeTextForSimpleIKPath = "SimpleXROrigin/Camera Offset/Main Camera/Canvas/NoticePnaelForAvatar/NoticeTextForAvatar";
 
-		[HeaderAttribute("Avatar for FinalIK")]
-		public GameObject avatarForFinalIK;
-		public GameObject headForFinalIK;
-		public GameObject bodyForFinalIK;
-		//public Hand LeftHandForFinalIK;
-		//public Hand rightHandForFinalIK;
-		public GameObject noticePanelForFinalIKAvatar;
-		public UnityEngine.UI.Text noticeTextForFinalIKAvatar;
+		[HeaderAttribute("Avatar for FinalIK [Disabled]")]
+//		public GameObject avatarForFinalIK;
+//		public GameObject headForFinalIK;
+//		public GameObject bodyForFinalIK;
+//		public Hand LeftHandForFinalIK;
+//		public Hand rightHandForFinalIK;
+//		public GameObject noticePanelForFinalIKAvatar;
+//		public UnityEngine.UI.Text noticeTextForFinalIKAvatar;
 
 		[HeaderAttribute("Menu")]
 		public Camera birdviewCamera;
@@ -104,15 +118,18 @@ namespace SIGVerse.Competition.HumanNavigation
 		[HeaderAttribute("Scenario Logger")]
 		public GameObject playbackManager;
 
-		[SerializeField] private InputActionReference leftPrimaryButton;
-		[SerializeField] private InputActionReference leftSecondaryButton;
-		[SerializeField] private InputActionReference leftThumbstickClick;
-		[SerializeField] private InputActionReference leftGripPressed;
-		[SerializeField] private InputActionReference rightPrimaryButton;
-		[SerializeField] private InputActionReference rightSecondaryButton;
-		[SerializeField] private InputActionReference rightThumbstickClick;
-		[SerializeField] private InputActionReference rightGripPressed;
+		[HeaderAttribute("Input Action")]
+		[SerializeField] private InputActionAsset inputActions;
 		//-----------------------------
+
+		private InputAction leftPrimaryButton;
+		private InputAction leftSecondaryButton;
+		private InputAction leftThumbstickClick;
+		private InputAction leftGripPressed;
+		private InputAction rightPrimaryButton;
+		private InputAction rightSecondaryButton;
+		private InputAction rightThumbstickClick;
+		private InputAction rightGripPressed;
 
 		private GameObject avatar;
 		private GameObject head;
@@ -182,22 +199,32 @@ namespace SIGVerse.Competition.HumanNavigation
 		{
 			try
 			{
+				this.leftPrimaryButton     = this.inputActions.FindAction(LeftPrimaryButtonPath,   throwIfNotFound: true);
+				this.leftSecondaryButton   = this.inputActions.FindAction(LeftSecondaryButtonPath, throwIfNotFound: true);
+				this.leftThumbstickClick   = this.inputActions.FindAction(LeftThumbstickClickPath, throwIfNotFound: true);
+				this.leftGripPressed       = this.inputActions.FindAction(LeftGripPressedPath,     throwIfNotFound: true);
+
+				this.rightPrimaryButton    = this.inputActions.FindAction(RightPrimaryButtonPath,  throwIfNotFound: true);
+				this.rightSecondaryButton  = this.inputActions.FindAction(RightSecondaryButtonPath,throwIfNotFound: true);
+				this.rightThumbstickClick  = this.inputActions.FindAction(RightThumbstickClickPath,throwIfNotFound: true);
+				this.rightGripPressed      = this.inputActions.FindAction(RightGripPressedPath,    throwIfNotFound: true);
+
 #if ENABLE_VRIK
-				this.avatar    = this.avatarForFinalIK;
-				this.head      = this.headForFinalIK;
-				this.body      = this.bodyForFinalIK;
-				this.LeftHand  = this.LeftHandForFinalIK;
-				this.rightHand = this.rightHandForFinalIK;
-				this.noticePanelForAvatar = this.noticePanelForFinalIKAvatar;
-				this.noticeTextForAvatar  = this.noticeTextForFinalIKAvatar;
+//				this.avatar    = this.avatarForFinalIK;
+//				this.head      = this.headForFinalIK;
+//				this.body      = this.bodyForFinalIK;
+//				this.LeftHand  = this.LeftHandForFinalIK;
+//				this.rightHand = this.rightHandForFinalIK;
+//				this.noticePanelForAvatar = this.noticePanelForFinalIKAvatar;
+//				this.noticeTextForAvatar  = this.noticeTextForFinalIKAvatar;
 #else
 				this.avatar    = this.avatarForSimpleIK;
-				this.head      = this.headForSimpleIK;
-				this.body      = this.bodyForSimpleIK;
-				this.leftHand  = this.leftHandForSimpleIK;
-				this.rightHand = this.rightHandForSimpleIK;
-				this.noticePanelForAvatar = this.noticePanelForSimpleIKAvatar;
-				this.noticeTextForAvatar  = this.noticeTextForSimpleIKAvatar;
+				this.head      = this.avatarForSimpleIK.transform.Find(this.headForSimpleIKPath).gameObject;
+				this.body      = this.avatarForSimpleIK.transform.Find(this.bodyForSimpleIKPath).gameObject;
+				this.leftHand  = this.avatarForSimpleIK.transform.Find(this.leftHandForSimpleIKPath) .gameObject.GetComponent<XRDirectInteractor>();
+				this.rightHand = this.avatarForSimpleIK.transform.Find(this.rightHandForSimpleIKPath).gameObject.GetComponent<XRDirectInteractor>();
+				this.noticePanelForAvatar = this.avatarForSimpleIK.transform.Find(this.noticePanelForSimpleIKPath).gameObject;
+				this.noticeTextForAvatar  = this.avatarForSimpleIK.transform.Find(this.noticeTextForSimpleIKPath).gameObject.GetComponent<TMP_Text>();
 #endif
 				// Practice mode
 				if (HumanNaviConfig.Instance.configInfo.executionMode == (int)ExecutionMode.Practice)
@@ -282,15 +309,15 @@ namespace SIGVerse.Competition.HumanNavigation
 
 				// Giveup for practice mode
 				if ( this.isPracticeMode &&(
-					(this.leftThumbstickClick .action.WasPressedThisFrame() && this.leftPrimaryButton .action.WasPressedThisFrame() && this.leftSecondaryButton .action.WasPressedThisFrame()) ||
-					(this.rightThumbstickClick.action.WasPressedThisFrame() && this.rightPrimaryButton.action.WasPressedThisFrame() && this.rightSecondaryButton.action.WasPressedThisFrame()) ||
+					(this.leftThumbstickClick .WasPressedThisFrame() && this.leftPrimaryButton .WasPressedThisFrame() && this.leftSecondaryButton .WasPressedThisFrame()) ||
+					(this.rightThumbstickClick.WasPressedThisFrame() && this.rightPrimaryButton.WasPressedThisFrame() && this.rightSecondaryButton.WasPressedThisFrame()) ||
 					(Input.GetKeyDown(KeyCode.Escape))
 				)){
 					this.OnGiveUp();
 				}
 
 //				if (SteamVR_Actions.sigverse_PressNearButton.GetStateDown(SteamVR_Input_Sources.LeftHand) && this.isDuringSession)
-				if (this.leftPrimaryButton .action.WasPressedThisFrame() && this.isDuringSession)
+				if (this.leftPrimaryButton .WasPressedThisFrame() && this.isDuringSession)
 				{
 					if (this.isPracticeMode)
 					{
@@ -1059,17 +1086,17 @@ namespace SIGVerse.Competition.HumanNavigation
 		}
 
 //		private void CheckGraspingStatus(Hand hand)
-		private void CheckGraspingStatus(XRDirectInteractor hand, InputActionReference gripPressed, string objectIdPreviousFrame)
+		private void CheckGraspingStatus(XRDirectInteractor hand, InputAction gripPressed, string objectIdPreviousFrame)
 		{
 //			if (SteamVR_Actions.sigverse_PressMiddle.GetStateDown(hand.handType))
-			if(gripPressed.action.WasPressedThisFrame())
+			if(gripPressed.WasPressedThisFrame())
 			{
 				SIGVerseLogger.Info("HandInteraction" + "\t" + "HoldButtonDown" + "\t" + hand.name + "\t" + this.GetElapsedTimeText());
 				this.RecordEventLog("HandInteraction" + "\t" + "HoldButtonDown" + "\t" + hand.name);
 			}
 
 //			if (SteamVR_Actions.sigverse_PressMiddle.GetStateUp(hand.handType))
-			if (gripPressed.action.WasReleasedThisFrame())
+			if (gripPressed.WasReleasedThisFrame())
 			{
 				//string objectInhand = objectIdPreviousFrame;
 				//if      (hand.handType==SteamVR_Input_Sources.LeftHand) { objectInhand = this.objectIdInLeftHandPreviousFrame; }

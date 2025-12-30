@@ -2744,7 +2744,6 @@ GameObject:
   - component: {fileID: 7817659215374265930}
   - component: {fileID: 6583198086783909844}
   - component: {fileID: 6560218088958846413}
-  - component: {fileID: 7226832051909560600}
   m_Layer: 13
   m_Name: HumanNaviAvatar
   m_TagString: Avatar
@@ -2816,19 +2815,6 @@ MonoBehaviour:
   avatar: {fileID: 4478267104122877320}
   avatarHeight: 1.5
   objectsProportionalToHeight: []
---- !u!114 &7226832051909560600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3626044113162956285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 084706ea722d2f143973fbe415fe246a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  note: 
 --- !u!1 &3694181354097765251
 GameObject:
   m_ObjectHideFlags: 0
