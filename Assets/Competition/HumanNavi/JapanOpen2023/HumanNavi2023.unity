@@ -184138,7 +184138,7 @@ MonoBehaviour:
   m_text: "Guidance Message\n "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f242d9298684f234890df1c8228bbd7c, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 656cbc3129412444aa10ddcce9825e69, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: cfbbc242962b70e4db81224f71932a62, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -184297,7 +184297,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
