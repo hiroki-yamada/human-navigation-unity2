@@ -64,88 +64,95 @@ namespace SIGVerse.Competition.HumanNavigation
 
 		void Awake()
 		{
-			this.configFilePath = Application.dataPath + HumanNaviConfig.FolderPath + HumanNaviConfig.ConfigFileName;
-
-			this.configInfo = new HumanNaviConfigInfo();
-
-			if (File.Exists(configFilePath))
+			try
 			{
-				// File open
-				StreamReader streamReader = new StreamReader(configFilePath, Encoding.UTF8);
+				this.configFilePath = Application.dataPath + HumanNaviConfig.FolderPath + HumanNaviConfig.ConfigFileName;
 
-				this.configInfo = JsonUtility.FromJson<HumanNaviConfigInfo>(streamReader.ReadToEnd());
+				this.configInfo = new HumanNaviConfigInfo();
 
-				streamReader.Close();
-
-			}
-			else
-			{
-				SIGVerseLogger.Warn("HumanNavi config file does not exists.");
-
-				this.configInfo.teamName = "XXXX";
-				this.configInfo.sessionTimeLimit = 300;
-				this.configInfo.maxNumberOfTrials = 1;
-				this.configInfo.recoverUsingScoreFile = false;
-				this.configInfo.executionMode = (int)ExecutionMode.Competition;
-				this.configInfo.playbackType = WorldPlaybackCommon.PlaybackTypeNone;
-				this.configInfo.language = "English";
-				List<TaskInfo> taskInfoList = new List<TaskInfo>();
-				taskInfoList.Add(new TaskInfo() { environment = "Default_Environment", target = "petbottle_500ml_empty_01", destination = "trashbox_01" });
-				this.configInfo.taskInfoList = taskInfoList;
-				this.configInfo.guidanceMessageForPractice = "";
-
-				this.SaveConfig();
-			}
-
-
-			this.scoreFilePath = Application.dataPath + HumanNaviConfig.FolderPath + HumanNaviConfig.ScoreFileName;
-
-			this.scores = new List<int>();
-
-			if (this.configInfo.recoverUsingScoreFile)
-			{
-				// File open
-				StreamReader streamReader = new StreamReader(scoreFilePath, Encoding.UTF8);
-
-				string line;
-
-				while ((line = streamReader.ReadLine()) != null)
+				if (File.Exists(configFilePath))
 				{
-					string scoreStr = line.Trim();
+					// File open
+					StreamReader streamReader = new StreamReader(configFilePath, Encoding.UTF8);
 
-					if (scoreStr == string.Empty) { continue; }
+					this.configInfo = JsonUtility.FromJson<HumanNaviConfigInfo>(streamReader.ReadToEnd());
 
-					this.scores.Add(Int32.Parse(scoreStr));
+					streamReader.Close();
+
+				}
+				else
+				{
+					SIGVerseLogger.Warn("HumanNavi config file does not exists.");
+
+					this.configInfo.teamName = "XXXX";
+					this.configInfo.sessionTimeLimit = 300;
+					this.configInfo.maxNumberOfTrials = 1;
+					this.configInfo.recoverUsingScoreFile = false;
+					this.configInfo.executionMode = (int)ExecutionMode.Competition;
+					this.configInfo.playbackType = WorldPlaybackCommon.PlaybackTypeNone;
+					this.configInfo.language = "English";
+					List<TaskInfo> taskInfoList = new List<TaskInfo>();
+					taskInfoList.Add(new TaskInfo() { environment = "Default_Environment", target = "petbottle_500ml_empty_01", destination = "trashbox_01" });
+					this.configInfo.taskInfoList = taskInfoList;
+					this.configInfo.guidanceMessageForPractice = "";
+
+					this.SaveConfig();
 				}
 
-				streamReader.Close();
 
-				this.numberOfTrials = this.scores.Count;
+				this.scoreFilePath = Application.dataPath + HumanNaviConfig.FolderPath + HumanNaviConfig.ScoreFileName;
 
-				if(this.configInfo.playbackType != WorldPlaybackCommon.PlaybackTypePlay)
+				this.scores = new List<int>();
+
+				if (this.configInfo.recoverUsingScoreFile)
 				{
-					if (this.numberOfTrials >= this.configInfo.maxNumberOfTrials)
+					// File open
+					StreamReader streamReader = new StreamReader(scoreFilePath, Encoding.UTF8);
+
+					string line;
+
+					while ((line = streamReader.ReadLine()) != null)
 					{
-						SIGVerseLogger.Error("this.numberOfTrials >= this.configFileInfo.maxNumberOfTrials");
-						Application.Quit();
+						string scoreStr = line.Trim();
+
+						if (scoreStr == string.Empty) { continue; }
+
+						this.scores.Add(Int32.Parse(scoreStr));
+					}
+
+					streamReader.Close();
+
+					this.numberOfTrials = this.scores.Count;
+
+					if(this.configInfo.playbackType != WorldPlaybackCommon.PlaybackTypePlay)
+					{
+						if (this.numberOfTrials >= this.configInfo.maxNumberOfTrials)
+						{
+							SIGVerseLogger.Error("this.numberOfTrials >= this.configFileInfo.maxNumberOfTrials");
+							Application.Quit();
+						}
 					}
 				}
-			}
-			else
-			{
-				this.numberOfTrials = 0;
-			}
+				else
+				{
+					this.numberOfTrials = 0;
+				}
 
-			if(this.configInfo.playbackType == WorldPlaybackCommon.PlaybackTypePlay)
-			{
-				this.numberOfTrials = this.configInfo.playbackTrialNum;
-			}
+				if(this.configInfo.playbackType == WorldPlaybackCommon.PlaybackTypePlay)
+				{
+					this.numberOfTrials = this.configInfo.playbackTrialNum;
+				}
 
-			switch (this.configInfo.language)
+				switch (this.configInfo.language)
+				{
+					case "English":  { this.ttsLanguageId = Language.English;  break; }
+					case "Japanese": { this.ttsLanguageId = Language.Japanese; break; }
+					default:         { this.ttsLanguageId = Language.English; break; }
+				}
+			}
+			catch (Exception e)
 			{
-				case "English":  { this.ttsLanguageId = Language.English;  break; }
-				case "Japanese": { this.ttsLanguageId = Language.Japanese; break; }
-				default:         { this.ttsLanguageId = Language.English; break; }
+				SIGVerseLogger.Error("Couldn't initialize config files. msg="+e.Message);
 			}
 		}
 
