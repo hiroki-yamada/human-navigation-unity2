@@ -3,7 +3,7 @@
 	"sessionTimeLimit":"180",
 	"recoverUsingScoreFile": false,
 	"maxNumberOfTrials": 6,
-	"playbackType": 0,
+	"playbackType": 1,
 	"taskInfoList":[
 		{"environment":"ExampleLayoutHN01#01","target":"apple#01",                    "destination":"destination#01"},
 		{"environment":"LayoutHN01#01",       "target":"tumblerglass_c02#02",         "destination":"destination#01"},
