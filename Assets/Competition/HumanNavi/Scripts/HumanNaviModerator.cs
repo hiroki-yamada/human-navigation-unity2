@@ -64,8 +64,6 @@ namespace SIGVerse.Competition.HumanNavigation
 		private const string TagNameFurniture   = "Furniture";
 		private const string TagNameDestination = "Destination";
 
-		private const string ObjectNameGrabVolume = "GrabVolume";
-
 		private enum Step
 		{
 			Initialize,
