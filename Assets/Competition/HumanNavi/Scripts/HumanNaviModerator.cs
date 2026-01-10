@@ -60,9 +60,11 @@ namespace SIGVerse.Competition.HumanNavigation
 		private const string MsgSpeechState  = "Speech_state";
 		private const string MsgSpeechResult = "Speech_result";
 
-		private const string TagNameOfGraspables  = "Graspables";
-		private const string TagNameOfFurniture   = "Furniture";
-		private const string TagNameOfDestination = "Destination";
+		private const string TagNameGraspables  = "Graspables";
+		private const string TagNameFurniture   = "Furniture";
+		private const string TagNameDestination = "Destination";
+
+		private const string ObjectNameGrabVolume = "GrabVolume";
 
 		private enum Step
 		{
@@ -602,7 +604,7 @@ namespace SIGVerse.Competition.HumanNavigation
 		private void SetObjectListToHumanNaviTaskInfo()
 		{
 			// Get graspable objects
-			this.graspableObjects = GameObject.FindGameObjectsWithTag(TagNameOfGraspables).ToList<GameObject>();
+			this.graspableObjects = GameObject.FindGameObjectsWithTag(TagNameGraspables).ToList<GameObject>();
 			if (this.graspableObjects.Count == 0)
 			{
 				throw new Exception("Graspable object is not found.");
@@ -648,7 +650,7 @@ namespace SIGVerse.Competition.HumanNavigation
 		private void SetFurnitureToHumanNaviTaskInfo()
 		{
 			// Get furniture
-			List<GameObject> furnitureObjects = GameObject.FindGameObjectsWithTag(TagNameOfFurniture).ToList<GameObject>();
+			List<GameObject> furnitureObjects = GameObject.FindGameObjectsWithTag(TagNameFurniture).ToList<GameObject>();
 			if (furnitureObjects.Count == 0)
 			{
 				throw new Exception("Furniture is not found.");
@@ -675,7 +677,7 @@ namespace SIGVerse.Competition.HumanNavigation
 
 		private void SetDestinationToHumanNaviTaskInfo()
 		{
-			List<GameObject> destinations = GameObject.FindGameObjectsWithTag(TagNameOfDestination).ToList<GameObject>();
+			List<GameObject> destinations = GameObject.FindGameObjectsWithTag(TagNameDestination).ToList<GameObject>();
 			if (destinations.Count == 0)
 			{
 				throw new Exception("Destination candidate is not found.");
@@ -997,7 +999,7 @@ namespace SIGVerse.Competition.HumanNavigation
 
 			if (currentAttachedObject != null)
 			{
-				if (currentAttachedObject.tag == TagNameOfGraspables)
+				if (currentAttachedObject.tag == TagNameGraspables)
 				{
 					if (this.IsTargetObject(currentAttachedObject.name))
 					{
@@ -1042,13 +1044,48 @@ namespace SIGVerse.Competition.HumanNavigation
 						}
 					}
 				}
-				else// if (hand.CurrentlyInteracting.tag != "Untagged")
+				else
 				{
-					SIGVerseLogger.Info("Object_Is_Grasped" + "\t" + "Others" + "\t" + currentAttachedObject.name + "\t" + this.GetElapsedTimeText());
-					this.RecordEventLog("Object_Is_Grasped" + "\t" + "Others" + "\t" + currentAttachedObject.name);
+					string furnitureName = GetFurnitureName(currentAttachedObject);
+					SIGVerseLogger.Info("Object_Is_Grasped" + "\t" + "Others" + "\t" + furnitureName + "\t" + this.GetElapsedTimeText());
+					this.RecordEventLog("Object_Is_Grasped" + "\t" + "Others" + "\t" + furnitureName);
 				}
 			}
 		}
+
+		private static string GetFurnitureName(XRGrabInteractable current)
+		{
+			var names = new List<string>();
+			Transform currentTransform = current.transform;
+
+			bool reachedRootWithoutTag = false;
+
+			while (currentTransform != null)
+			{
+				names.Add(currentTransform.name);
+
+				if (currentTransform.CompareTag(TagNameFurniture)) { break; }
+
+				if (currentTransform.parent == null)
+				{
+					reachedRootWithoutTag = true;
+					break;
+				}
+
+				currentTransform = currentTransform.parent;
+			}
+
+			names.Reverse();
+			string pathFromRoot = string.Join("/", names);
+
+			if (reachedRootWithoutTag)
+			{
+				SIGVerseLogger.Error("The furniture tag is incorrect. furniture="+pathFromRoot);
+			}
+
+			return pathFromRoot;
+		}
+	
 
 //		private string GetGraspingObjectId(Hand hand)
 		private string GetGraspingObjectId(XRDirectInteractor hand)
@@ -1059,7 +1096,7 @@ namespace SIGVerse.Competition.HumanNavigation
 			if(hand.hasSelection && hand.interactablesSelected[0] is XRGrabInteractable graspable)
 			{
 //				if (hand.currentAttachedObject.tag == TagNameOfGraspables)
-				if (graspable.tag == TagNameOfGraspables)
+				if (graspable.tag == TagNameGraspables)
 				{
 					graspingObject = graspable.name;
 				}
