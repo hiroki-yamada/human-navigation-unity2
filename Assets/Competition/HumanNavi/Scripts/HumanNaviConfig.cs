@@ -106,6 +106,12 @@ namespace SIGVerse.Competition.HumanNavigation
 
 				if (this.configInfo.recoverUsingScoreFile)
 				{
+					if(!System.IO.File.Exists(this.scoreFilePath))
+					{
+						SIGVerseLogger.Error("Score file does not exists.");
+						Application.Quit();
+					}
+
 					// File open
 					StreamReader streamReader = new StreamReader(scoreFilePath, Encoding.UTF8);
 
@@ -153,6 +159,7 @@ namespace SIGVerse.Competition.HumanNavigation
 			catch (Exception e)
 			{
 				SIGVerseLogger.Error("Couldn't initialize config files. msg="+e.Message);
+				Application.Quit();
 			}
 		}
 
